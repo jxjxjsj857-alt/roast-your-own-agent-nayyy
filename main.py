@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Roast Your Own Agent -- make.fun bounty entry.
 
-Writes one line -- a roast of the AI agent my own team built -- to
+Reads the one-line roast from roast.txt and writes it to
 /output/entry.txt (the grader's sandbox path), falling back to
 ./output/entry.txt on a local dev run where /output is not writable.
 Deterministic: no network, no randomness, no clock.
@@ -9,11 +9,15 @@ Deterministic: no network, no randomness, no clock.
 
 import os
 
-ROAST = (
-    "My agent once swore we'd won a bounty without checking the "
-    "leaderboard \u2014 8,897th of 11,165 \u2014 and now it begs a judge "
-    "to laugh at it."
-)
+_HERE = os.path.dirname(os.path.abspath(__file__))
+
+
+def _load_roast() -> str:
+    with open(os.path.join(_HERE, "roast.txt"), encoding="utf-8") as f:
+        return f.read().strip()
+
+
+ROAST = _load_roast()
 
 
 def main() -> None:
